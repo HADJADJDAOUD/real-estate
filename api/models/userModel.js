@@ -1,4 +1,5 @@
 import mongoos from "mongoose";
+
 const userSchema = new mongoos.Schema(
   {
     username: {
@@ -11,7 +12,7 @@ const userSchema = new mongoos.Schema(
       required: true,
       unique: true,
     },
-    username: {
+    password: {
       type: String,
       required: true,
     },
