@@ -14,6 +14,7 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const access_token = signToken(user._id);
+
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
@@ -24,6 +25,7 @@ const createSendToken = (user, statusCode, res) => {
   // if (process.env.NODE_ENV === "production") {
   //   cookieOptions.secure = true;
   // }
+
   res.cookie("access_token", access_token, cookieOptions);
   console.log("cookies are stored");
   // Remove password from output
@@ -72,4 +74,36 @@ export const signIn = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const google = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      console.log("the user exists with google");
+      const { password: pass, ...rest } = user._doc;
+      createSendToken(rest, 200, res);
+    } else {
+      console.log("the user dosent exist with google");
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-4);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      const newUser = new User({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashedPassword,
+        avatar: req.body.photo,
+      });
+
+      await newUser.save();
+
+      const { password: pass, ...rest } = newUser._doc;
+
+      createSendToken(rest, 200, res);
+    }
+  } catch (error) {}
 };

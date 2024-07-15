@@ -1,12 +1,18 @@
 import dotenv from "dotenv";
 import express from "express";
-
+import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/userRoute.js";
 import userAuth from "./routes/authRoute.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: "*", // Replace with your frontend URL
+    credentials: true,
+  })
+);
 
 ///DATABASE SETTINGS
 mongoose
