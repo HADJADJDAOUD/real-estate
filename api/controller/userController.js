@@ -48,3 +48,4 @@ export const deleteUser = async (req, res, next) => {
     console.log("error in delete function", error);
   }
 };
+
