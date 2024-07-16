@@ -13,7 +13,7 @@ export default function SignIn() {
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
 
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -29,9 +29,11 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
+      console.log("this is data", data);
       if (data.success === false) {
+        console.log("this is error", data.message);
         dispatch(signInFailure(data.message));
+
         return;
       }
       //setLoading(false);
@@ -41,6 +43,7 @@ export default function SignIn() {
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
+      console.log("this is error", error);
     }
   };
   return (
