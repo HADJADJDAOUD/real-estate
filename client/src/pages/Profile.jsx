@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
   updateUserFailure,
@@ -178,6 +179,12 @@ export default function Profile() {
         >
           {loading ? "Loading.." : "Update"}
         </button>
+        <Link
+          to={"/createListing"}
+          className=" text-white bg-green-700 uppercase text-center rounded-lg p-3 hover:opacity-95 "
+        >
+          Create list
+        </Link>
       </form>
       <div className="justify-between flex mt-5">
         <span
