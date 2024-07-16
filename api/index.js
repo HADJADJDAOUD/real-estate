@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoute.js";
 import userAuth from "./routes/authRoute.js";
 import helmet from "helmet";
+import listingRouter from "./routes/listing.route.js";
 dotenv.config();
 
 const app = express();
@@ -35,6 +36,7 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", userAuth);
+app.use("/api/listing", listingRouter);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "internel server error";
