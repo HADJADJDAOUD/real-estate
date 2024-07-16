@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user.user);
-
+  console.log("this is current user", currentUser);
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex items-center justify-between md:pl-20 md:pr-20 mx-auto p-3">
@@ -34,7 +34,7 @@ export default function Header() {
           <Link to="/profile">
             {currentUser ? (
               <img
-                src={currentUser.data.user.avatar}
+                src={currentUser.avatar}
                 alt=" profile picture"
                 className=" rounded-full h-9 w-9 object-cover "
               />

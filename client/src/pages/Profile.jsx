@@ -47,6 +47,7 @@ export default function Profile() {
     );
   };
   console.log(filePrec);
+
   return (
     <div className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7 ">Profile</h1>
@@ -60,7 +61,7 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.data.user.avatar}
+          src={formData.avatar || currentUser.avatar}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover self-center mt-2 cursor-pointer"
         />
@@ -70,7 +71,9 @@ export default function Profile() {
           ) : filePrec > 0 && filePrec < 100 ? (
             <span className="text-slate-700">{`upload ${filePrec} %`}</span>
           ) : filePrec === 100 ? (
-            <span className="text-green-700 text-lg">image successfully uploaded!</span>
+            <span className="text-green-700 text-lg">
+              image successfully uploaded!
+            </span>
           ) : (
             ""
           )}

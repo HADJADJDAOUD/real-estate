@@ -2,10 +2,10 @@ import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import errorHandler from "../utils/error.js";
+
 /////////
 ///////////
 //////////
-
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -13,27 +13,27 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
+  console.log("inside sendtoken user id ", user._id);
   const access_token = signToken(user._id);
 
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    httpOnly: false,
+    httpOnly: false, // Allow client-side JavaScript access
+    secure: true, // Only send cookie over HTTPS
   };
-  cookieOptions.secure = true;
-  // if (process.env.NODE_ENV === "production") {
-  //   cookieOptions.secure = true;
-  // }
 
   res.cookie("access_token", access_token, cookieOptions);
-  console.log("cookies are stored");
-  // Remove password from output
+  console.log("access_token cookie:", access_token);
+
+  // Remove sensitive information before sending response
+
   res.status(statusCode).json({
     status: "success",
     access_token,
     data: {
-      user,
+      user: user, // Send sanitized user data
     },
   });
 };
@@ -69,8 +69,13 @@ export const signIn = async (req, res, next) => {
       return next(errorHandler(401, "incorrect credential"));
     }
     //// to remove the password from get displayed
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
-    createSendToken(rest, 200, res);
+    console.log(req.cookies.access_token);
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(rest);
   } catch (error) {
     next(error);
   }
@@ -81,8 +86,15 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
       console.log("the user exists with google");
+      console.log("this is user id ", user._id);
+
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
-      createSendToken(rest, 200, res);
+      console.log(req.cookies);
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
     } else {
       console.log("the user dosent exist with google");
       const generatedPassword =
@@ -101,9 +113,20 @@ export const google = async (req, res, next) => {
 
       await newUser.save();
 
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
-
-      createSendToken(rest, 200, res);
+      console.log(req.cookies.access_token);
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error in Google OAuth:", error);
+    // Handle errors properly, e.g., send an error response
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+  }
 };

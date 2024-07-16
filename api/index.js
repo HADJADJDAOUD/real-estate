@@ -2,10 +2,15 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoute.js";
 import userAuth from "./routes/authRoute.js";
+import helmet from "helmet";
 dotenv.config();
+
 const app = express();
+
+app.use(helmet());
 app.use(express.json());
 app.use(
   cors({
@@ -13,6 +18,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
+// get information from the cookies
 
 ///DATABASE SETTINGS
 mongoose
