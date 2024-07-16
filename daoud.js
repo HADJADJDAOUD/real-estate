@@ -1,22 +1,12 @@
 import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../Firebase";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 export default function Profile() {
   const { currentUser } = useSelector((state) => state.user.user);
   const fileRef = useRef(null);
   const [file, setFile] = useState(undefined);
-  const [filePrec, setFilePrec] = useState(0);
-  const [fileUploadError, setFileUploadError] = useState(false);
-  const [formData, setFormData] = useState({});
   console.log(file);
-  console.log(formData);
-  // console.log("thhis is current user", currentUser);
+  console.log("thhis is current user", currentUser);
 
   useEffect(() => {
     if (file) {
@@ -29,24 +19,11 @@ export default function Profile() {
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePrec(Math.round(progress));
-      },
-      (error) => {
-        setFileUploadError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-          setFormData({ ...formData, avatar: downloadUrl });
-        });
-      }
-    );
+    uploadTask.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("upload " + progress + "$done");
+    });
   };
-  console.log(filePrec);
   return (
     <div className="max-w-lg p-3 mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7 ">Profile</h1>
@@ -60,22 +37,10 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.data.user.avatar}
+          src={currentUser.data.user.avatar}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover self-center mt-2 cursor-pointer"
         />
-        <p className=" text-sm self-center">
-          {fileUploadError ? (
-            <span className="text-red-500">Error Image Upload</span>
-          ) : filePrec > 0 && filePrec < 100 ? (
-            <span className="text-slate-700">{`upload ${filePrec} %`}</span>
-          ) : filePrec === 100 ? (
-            <span className="text-green-700 text-lg">image successfully uploaded!</span>
-          ) : (
-            ""
-          )}
-        </p>
-
         <input
           type="text"
           placeholder="username"
