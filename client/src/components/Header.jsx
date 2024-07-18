@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user.user);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log("this is current user", currentUser);
+  // console.log("this is current user", currentUser);
   const navigate = useNavigate();
   const handleSumbit = (e) => {
     e.preventDefault();
