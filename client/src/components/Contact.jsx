@@ -25,7 +25,7 @@ export default function Contact({ listing }) {
   const onChange = (e) => {
     setMessage(e.target.value);
   };
-  
+
   return (
     <>
       {landlord && (
