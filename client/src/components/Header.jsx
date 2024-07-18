@@ -26,10 +26,13 @@ export default function Header() {
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex items-center justify-between md:pl-20 md:pr-20 mx-auto p-3">
-        <h1 className="font-bold text-sm sm:text-xl flex ">
-          <span className="text-slate-500">Sahand</span>
-          <span className="text-slate-700">Estate</span>
-        </h1>
+        <Link to="/">
+          {" "}
+          <h1 className="font-bold text-sm sm:text-xl flex ">
+            <span className="text-slate-500">Sahand</span>
+            <span className="text-slate-700">Estate</span>
+          </h1>
+        </Link>
         <form
           onSubmit={handleSumbit}
           className="bg-slate-100 p-3 rounded-lg flex items-center "
