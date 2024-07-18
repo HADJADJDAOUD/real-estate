@@ -41,7 +41,10 @@ export default function Header() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <FaSearch className="text-slate-600" />
+          <FaSearch
+            onClick={handleSumbit}
+            className="text-slate-600 hover:cursor-pointer"
+          />
         </form>
         <ul className="flex gap-4 text-xl ">
           <Link to="/">

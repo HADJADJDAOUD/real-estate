@@ -196,7 +196,7 @@ export default function UpdateListing() {
             placeholder="Name"
             className="border p-3 rounded-lg"
             id="name"
-            maxLength="62"
+            maxLength="200"
             minLength="10"
             required
             onChange={handleChange}
@@ -207,7 +207,7 @@ export default function UpdateListing() {
             placeholder="Description"
             className="border p-3 rounded-lg"
             id="description"
-            maxLength="62"
+            maxLength="200"
             minLength="10"
             required
             onChange={handleChange}
@@ -218,7 +218,7 @@ export default function UpdateListing() {
             placeholder="Address"
             className="border p-3 rounded-lg"
             id="address"
-            maxLength="62"
+            maxLength="200"
             minLength="10"
             required
             onChange={handleChange}
