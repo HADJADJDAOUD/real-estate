@@ -8,16 +8,29 @@ import userAuth from "./routes/authRoute.js";
 import helmet from "helmet";
 import listingRouter from "./routes/listing.route.js";
 import path from "path";
+
 dotenv.config();
 
 const app = express();
 
-app.use(helmet());
 app.use(express.json());
 app.use(
   cors({
     origin: "*", // Replace with your frontend URL
     credentials: true,
+  })
+);
+app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "https://firebasestorage.googleapis.com"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"], // Adjust as needed
+      frameSrc: ["'none'"], // Adjust based on your needs
+      // Add other directives as neededs
+    },
   })
 );
 app.use(cookieParser());
