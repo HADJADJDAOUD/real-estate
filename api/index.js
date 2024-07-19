@@ -26,6 +26,7 @@ app.use(
     directives: {
       defaultSrc: ["'self'"],
       imgSrc: ["'self'", "https://firebasestorage.googleapis.com"],
+      connectSrc: ["'self'", "https://firebasestorage.googleapis.com"],
       scriptSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"], // Adjust as needed
       frameSrc: ["'none'"], // Adjust based on your needs
