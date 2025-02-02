@@ -20,7 +20,7 @@ export default function SignUp() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
+      console.log('sign up',data);
       if (data.success === false) {
         setLoading(false);
         setError(data.message);
@@ -73,7 +73,7 @@ export default function SignUp() {
           <span className="text-blue-700 ">Sign in</span>
         </Link>
       </div>
-      {error && <p className="text-red-600 mt-5 ">{error}</p>}
+      {error && <p className="text-red-600 mt-5 ">please enter the correct information </p>}
     </div>
   );
 }

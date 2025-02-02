@@ -50,7 +50,7 @@ export default function CreateListing() {
       setUploading(true);
       setImageUploadError(false);
       for (let i = 0; i < files.length; i++) {
-        console.log(i);
+        console.log('i in creating lists',i);
         promises.push(storageImage(files[i]));
       }
 

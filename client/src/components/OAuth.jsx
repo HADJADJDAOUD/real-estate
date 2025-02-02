@@ -8,12 +8,12 @@ export default function OAuth() {
   const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {
-      console.log("daoud");
+      console.log("daoud in ouath");
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-      console.log(result);
-      console.log("before");
+      console.log('result in outh',result);
+      console.log("before in outh");
       const res = await fetch("http://localhost:3000/api/auth/google", {
         method: "POST",
         headers: {
@@ -25,13 +25,13 @@ export default function OAuth() {
           photo: result.user.photoURL,
         }),
       });
-      console.log("after fetching");
+      console.log("after fetching in outh");
       const data = await res.json();
-      console.log("entered the sunbit funciton");
+      console.log("entered the sunbit funciton in oath");
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      console.log(error, "we clouldnt sign with google");
+      console.log(error, "we clouldnt sign with google in oath");
     }
   };
 

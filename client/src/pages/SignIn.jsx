@@ -29,16 +29,16 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log("this is data", data);
+      console.log("this is data signin", data);
       if (data.success === false) {
-        console.log("this is error", data.message);
+        console.log("this is error sign in", data.message);
         dispatch(signInFailure(data.message));
 
         return;
       }
       //setLoading(false);
       //setError(null);
-      console.log("it entered");
+      console.log("it entered sign in");
       dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {

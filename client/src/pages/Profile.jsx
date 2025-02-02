@@ -34,8 +34,8 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
-  console.log(file);
-  console.log(formData);
+  console.log('profile',file);
+  console.log('profile.jsx',formData);
   // console.log("thhis is current user", currentUser);
 
   useEffect(() => {

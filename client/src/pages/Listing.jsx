@@ -33,7 +33,7 @@ export default function Listing() {
         const res = await fetch(`/api/listing/get/${listingId}`);
         const data = await res.json();
         if (data.success === false) {
-          console.log(data.message);
+          console.log('this is the data after fetching in listing.jsx ',data.message);
           setError(data.message);
           setLoading(false);
           return;

@@ -42,7 +42,7 @@ export default function Home() {
     };
     fetchOfferListings();
   }, []);
-
+console.log('this is in homejsx offerlistings ',offerListings , saleListings)
   return (
     <div>
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
@@ -68,14 +68,16 @@ export default function Home() {
         {offerListings &&
           offerListings.length > 0 &&
           offerListings.map((listing) => (
+            // eslint-disable-next-line react/jsx-key
             <SwiperSlide>
               <div
+                key={listing._id}
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: 'cover',
                 }}
                 className='h-[500px]'
-                key={listing._id}
+              
               ></div>
             </SwiperSlide>
           ))}
